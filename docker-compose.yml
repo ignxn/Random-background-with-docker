@@ -1,0 +1,70 @@
+#version: '3'
+#services:
+#  client:
+#    build: ./client
+#    ports:
+#    - "80:80"
+#    links:
+#    - server
+#    volumes:
+#    - "D:/Documents/Projects/Random-background/Random-background/client:/app/client"
+#  server:
+#    build: ./server
+#    ports:
+#    - "3000:3000"
+##    links:
+##    - mongo
+##  mongo:
+##    image: mongo
+##    ports:
+##    - "27017:27017"
+
+#version: "2"
+#services:
+#
+#  server:
+#    container_name: newsservice
+#    build: ./server/
+#    volumes:
+#    - './server:/app/server/'
+#    - './server/package.json:/app/server/package.json'
+#    ports:
+#    - '3002:3002'
+#
+#  client:
+#    container_name: reactclient
+#    build: ./client/
+#    volumes:
+#    - './client:/app/client/'
+#    - '/app/client/node_modules'
+#    ports:
+#    - '3000:3000'
+
+
+version: "3"
+services:
+  client:
+    build: ./client
+    environment:
+      - REACT_APP_PORT=${REACT_APP_PORT}
+    expose:
+      - ${REACT_APP_PORT}
+    ports:
+      - ${REACT_APP_PORT}:${REACT_APP_PORT}
+    links:
+    - server
+    command: npm run start
+  server:
+    build: ./server
+    expose:
+      - ${APP_SERVER_PORT}
+    environment:
+      API_HOST: ${API_HOST}
+      APP_SERVER_PORT: ${APP_SERVER_PORT}
+    ports:
+      - ${APP_SERVER_PORT}:${APP_SERVER_PORT}
+#    volumes:
+#      - "D:/Documents/Projects/Random-background/Random-background/server:/app/server"
+#    volumes:
+#      - ./server:/app/server
+
